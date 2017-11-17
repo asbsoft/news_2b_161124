@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "asb\\modules\\news_2b_161124\\": ""
+            "asb\\yii2\\modules\\news_2b_161124\\": ""
         }
     }
 }

@@ -35,10 +35,12 @@
     $assets = AdminAsset::register($this);
 
     $this->title = Yii::t($tc, 'News');
-    $this->params['breadcrumbs'][] = [
-        'label' => Yii::t($tc, 'Admin startpage'),
-        'url' => ['/' . Yii::$app->params['adminPath']],
-    ];
+    if (!empty(Yii::$app->params['adminPath'])) {
+        $this->params['breadcrumbs'][] = [
+            'label' => Yii::t($tc, 'Admin startpage'),
+            'url' => ['/' . Yii::$app->params['adminPath']],
+        ];
+    }
     //$this->params['breadcrumbs'][] = $this->title;
     $this->params['breadcrumbs'][] = [
         'label' => Html::encode($this->title),
