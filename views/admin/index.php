@@ -47,8 +47,6 @@
         'url' => Url::to(['index']),
     ];
 
-    $userModel = $this->context->module->userIdentity;
-
     $formName = basename($searchModel::className());
     $paramSearch = Yii::$app->request->get($formName, []);
     foreach ($paramSearch as $key => $val) {
@@ -62,6 +60,10 @@
     $loadNewsModel->module = $this->context->module;
 
     $uploadsUrl = Yii::getAlias($this->context->module->params['uploadsNewsDir']);
+
+    $userIdentity = $this->context->module->userIdentity;
+    $usersNamesList = method_exists($userIdentity, 'usersNames') ? $userIdentity::usersNames() : false;
+    $userFilter = (Yii::$app->user->can('roleNewsModerator') && $usersNamesList) ? $usersNamesList : false;
 
 ?>
 <div class="news-index">
@@ -151,11 +153,7 @@
                 'attribute' => 'owner_id',
                 'label' => Yii::t($tc, 'Author'),
                 'format' => 'username',
-                'filter' => (
-                    Yii::$app->user->can('roleNewsModerator')
-                        ? $userModel::usersNames()
-                        : false
-                ),
+                'filter' => $userFilter,
                 'filterInputOptions' => ['class' => 'form-control', 'prompt' => '-' . Yii::t($tc, 'all') . '-'],
             ],
             [
