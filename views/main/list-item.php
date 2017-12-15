@@ -26,7 +26,8 @@
                ];
     }
 
-    $uploadsUrl = Yii::getAlias($this->context->module->params['uploadsNewsDir']);
+    //$uploadsUrl = Yii::getAlias($this->context->module->params['uploadsNewsUrl']);
+    $uploadsUrl = $this->context->uploadsNewsUrl;
 
 ?>
    <td class="item-image">
