@@ -11,6 +11,11 @@ use Yii;
 use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 
+/**
+ * Test example of inherited controller.
+ *
+ * @author ASB <ab2014box@gmail.com>
+ */
 class AdminController extends BaseAdminController
 {
     public $tmpDir = '@runtime/news-tmp'; // default
@@ -20,6 +25,9 @@ class AdminController extends BaseAdminController
 
     /** @var integer the probability (in percents) that garbage collection should be performed */
     protected $_gcProbability = 10;
+
+    /** UTC dete-time info */
+    public $datetimes = [];
 
     /**
      * @inheritdoc
@@ -39,6 +47,20 @@ class AdminController extends BaseAdminController
         }
         $this->tmpDir = Yii::getAlias($this->tmpDir);
         FileHelper::createDirectory($this->tmpDir);
+
+        // Same as in MainController
+        $zoneUtc = new \DateTimeZone('UTC');
+        $zoneServer = new \DateTimeZone(Yii::$app->timeZone);
+        $datetimeUtc = new \DateTime("now", $zoneUtc);
+        $datetimeServer = new \DateTime("now", $zoneServer);
+        $offsetSec = $zoneUtc->getOffset($datetimeUtc) - $zoneServer->getOffset($datetimeServer);
+        $time = time();
+        $this->datetimes = [ // need for render views/main/view.php in actionView
+            'serverTimeUtcUnix' => $time + $offsetSec,
+            'serverTimeUtc'     => date('d.m.Y H:i:s', $time + $offsetSec),
+          //'serverTimeUnix'    => $time,
+          //'serverTime'        => date('d.m.Y H:i:s', $time),
+        ];
     }
 
     /**
@@ -164,7 +186,7 @@ class AdminController extends BaseAdminController
                 Yii::$app->session->setFlash('error', Yii::t($this->tcModule, $msg));
             }
         }
-//echo __METHOD__;exit;
+
         return $this->redirect(['index',
             'page' => $page,
             'id'   => intval($id), // false -> 0

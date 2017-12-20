@@ -1,5 +1,4 @@
-<?php //echo __FILE__;exit;
-
+<?php
 // route without prefix => controller/action without current (and parent) module(s) IDs
 return [
     'view/<id:\d+>'               => 'main/view',         // must be before

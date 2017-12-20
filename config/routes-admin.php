@@ -1,6 +1,7 @@
-<?php //echo __FILE__;exit;
+<?php
 // route without prefix => controller/action without current (and parent) module(s) IDs
 return [
+
     '<action:(view|update|delete|change-visible|export)>/<id:\d+>'
                                         => 'admin/<action>',
     '<action:(index)>/<page:\d+>'       => 'admin/<action>',

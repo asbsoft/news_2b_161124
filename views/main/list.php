@@ -1,49 +1,29 @@
 <?php
 /**
-   @var $dataProvider yii\data\ActiveDataProvider
-   @var $this yii\web\View
-*/
+ * Test example of inheritance
+ * @author ASB <ab2014box@gmail.com>
+ */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $this yii\web\View */
 
-    use yii\helpers\Html;
-    use yii\helpers\Url;
-    use yii\widgets\ListView;
+$datetimes = $this->context->datetimes;
 
-
-    $listViewId = 'news-list';
-    $gridHtmlClass = 'news-list-grid';
-    $gridTableClass = 'news-list-items';
-
-    $assets = $this->context->module->registerAsset('FrontAsset', $this);
-
-    $this->title = Yii::t($this->context->tc, 'News');
-    //$this->params['breadcrumbs'][] = $this->title;
-    $this->params['breadcrumbs'][] = [
-        'label' => Html::encode($this->title),
-        'url' => Url::to(['index']),
-    ];
-
-    //$page = $dataProvider->pagination->page + 1;
 ?>
-<div class="news-list">
+<?php $this->startParent() ?>
+    <?php $this->startBlock('title') ?>
 
-    <h1><a href="<?= Url::to(['list']) ?>"><?= Html::encode($this->title) ?></a></h1>
+        <?php $this->parentBlock() ?>
 
-    <?= ListView::widget([
-        'dataProvider' => $dataProvider,
-        'id' => $listViewId,
-        'options' => ['class' => $gridHtmlClass],
-        'layout' => "{pager}\n<table class=\"{$gridTableClass}\">\n{items}\n</table>\n{summary}\n{pager}",
-        'itemView' => function($model, $key, $index, $widget) use($dataProvider) {
-            $item = $this->context->renderPartial('list-item', [
-                'model' => $model,
-                'key'   => $key,
-                'index' => $index,
-                'widget' => $widget,
-                'dataProvider' => $dataProvider,
-            ]);
-            return '<tr class="item">' . $item . '</tr>';
-        },
+        <div class="add-news-data">
+            <h5><?= Yii::t($this->context->tc, "It's modules inheritance possibilities demo only") ?></h5>
+            <h5>
+                <?= Yii::t($this->context->tc, 'server time (UTC)') ?>
+                <span class="local-time"><?= $datetimes['serverTimeUtc'] ?></span>
+                &nbsp;&nbsp;&nbsp;
+                <?= Yii::t($this->context->tc, 'client time') ?>
+                <span class="js-time" data-unixtime="<?= $datetimes['serverTimeUtcUnix'] ?>"><?= $datetimes['serverTimeUtc'] ?></span>
+            </h5>
+        </div>
 
-    ]); ?>
-
-</div>
+    <?php $this->stopBlock('title') ?>
+<?php $this->stopParent() ?>

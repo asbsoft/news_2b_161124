@@ -15,6 +15,7 @@ use yii\helpers\ArrayHelper;
  */
 class MainController extends ParentMainController
 {
+    /** UTC dete-time info */
     public $datetimes = [];
 
     /**
@@ -34,8 +35,8 @@ class MainController extends ParentMainController
         $this->datetimes = [
             'serverTimeUtcUnix' => $time + $offsetSec,
             'serverTimeUtc'     => date('d.m.Y H:i:s', $time + $offsetSec),
-            //'serverTimeUnix'    => $time,
-            //'serverTime'        => date('d.m.Y H:i:s', $time),
+          //'serverTimeUnix'    => $time,
+          //'serverTime'        => date('d.m.Y H:i:s', $time),
         ];
     }
 
@@ -45,7 +46,6 @@ class MainController extends ParentMainController
      */
     public function actionList($page = 1)
     {
-
         //return parent::actionList($page); // original render but with inherited view + layout
         
         //$searchModel = new NewsSearchFront; // model defined in use-clause
@@ -65,34 +65,28 @@ class MainController extends ParentMainController
             $pager->page = $page - 1; //! from 0
         }
 
-        $html = $this->renderPartial('list', [ // original render but with inherited view WITHOUT layout
+        return $this->render('list', [
             'dataProvider' => $dataProvider,
-        ]);
-
-        return $this->render('list-ext', [ // mix of views + layout
-            'datetimes' => $this->datetimes,
-            'html' => $html,
         ]);
     }
 
-    // example without using $this->renderData
     /**
      * @inheritdoc
      */
+/*
     public function actionView($id)
     {
-        $result = parent::actionView($id); // render result not need, only renderData
-        //return $result;
-
+        $result = parent::actionView($id); // render result not need, only $this->renderData
         $this->renderData = ArrayHelper::merge($this->renderData, [
             'datetimes' => $this->datetimes,
         ]);
-        return $this->render('view-new', $this->renderData);
+        return $this->render('view', $this->renderData);
     }
+*/
 
+    /** View by slug action */
     public function actionViewBySlug($slug)
     {
-
         $lh = $this->module->langHelper;
         $language = $lh::normalizeLangCode(Yii::$app->language);
 

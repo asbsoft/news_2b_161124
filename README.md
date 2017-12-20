@@ -1,6 +1,6 @@
 
-New features of this module
-===========================
+News-2: Add new features toexisting module yii2module-news_1b_160430
+====================================================================
 
 Demonstration of modules inheritance:
 - configs and params will merge with ancestor's data
@@ -16,3 +16,4 @@ New features in version news_2b_161124:
 - url for news http://.../en/news/view/link-with-slug
   instead of http://.../en/news/view/NNN
 - news archivation
+- add date-time correction according to time zone
