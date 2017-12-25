@@ -50,5 +50,7 @@
    <td>&nbsp;</td>
 
    <td class="item-title">
-        <?= Html::a(Html::encode($model->title), $url, ['title' => $model->title]); ?>
+        <?= Html::a(Html::encode($model->title), $url, [
+                'title' => Html::encode($model->title)
+            ]); ?>
    </td>

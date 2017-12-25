@@ -1,6 +1,6 @@
 
-News-2: Add new features toexisting module yii2module-news_1b_160430
-====================================================================
+News-2: Add new features to existing module yii2module-news_1b_160430
+=====================================================================
 
 Demonstration of modules inheritance:
 - configs and params will merge with ancestor's data
