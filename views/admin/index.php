@@ -12,7 +12,6 @@
     use asb\yii2\modules\news_1b_160430\models\Formatter;
 
     //use asb\yii2\modules\news_1b_160430\assets\AdminAsset;
-    use asb\yii2\common_2_170212\assets\BootstrapCssAsset;
     use asb\yii2\common_2_170212\assets\CommonAsset;
 
     use asb\yii2\common_2_170212\widgets\grid\ButtonedActionColumn;
@@ -21,6 +20,7 @@
 
     use kartik\date\DatePicker;
 
+    use yii\bootstrap\BootstrapAsset;
     use yii\helpers\Html;
     use yii\helpers\Url;
     use yii\helpers\ArrayHelper;
@@ -33,7 +33,7 @@
 
     $tc = $this->context->tcModule;
 
-    BootstrapCssAsset::register($this); // need to move up bootstrap.css
+    BootstrapAsset::register($this); // need to move up bootstrap.css
     $assetsSys = CommonAsset::register($this);
     $assets = $this->context->module->registerAsset('AdminAsset', $this);//$assets = AdminAsset::register($this);
 
