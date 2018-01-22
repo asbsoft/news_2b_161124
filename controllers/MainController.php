@@ -95,6 +95,40 @@ class MainController extends ParentMainController
             'slug' => $slug,
             'lang_code' => $language,
         ]);
+
+        // but after language switching slug for article on another language can be another
+        if (empty($modelI18n)) {  // try to get language from referer
+            $referer = Yii::$app->request->referrer;
+            $hostInfo = Yii::$app->request->hostInfo;
+            if (0 === strpos($referer, $hostInfo)) {
+                $previousLanguage = substr($referer, strlen($hostInfo) + 1, 2);
+                $previousLanguage = $lh::normalizeLangCode($previousLanguage);
+                $modelI18n = $this->module->model('NewsI18n')->findOne([
+                    'slug' => $slug,
+                    'lang_code' => $previousLanguage,
+                ]);
+                if (!empty($modelI18n)) {  // found i18n-model for previous language
+                    $model = $modelI18n->getMain()->one();  // get common model
+                    if (!empty($model)) {
+                        $modelsI18n = $model::prepareI18nModels($model);
+                        if (!empty($modelsI18n[$language])) {
+                            // do now show page with illegal slug in URL - prepare to redirect with correct slug
+                            $newSlug = $modelsI18n[$language]->slug;
+                            $result = Yii::$app->getUrlManager()->parseRequest(Yii::$app->request);
+                            if (is_array($result)) {
+                                list ($route, $routeParams) = $result;
+                                $routeParams[0] = $route;
+                                $routeParams['lang'] = $language;
+                                $routeParams['slug'] = $newSlug;
+                                $link = Yii::$app->urlManager->createUrl($routeParams);
+                                return $this->redirect($link);
+                            }                
+                        }
+                    }
+                }
+            }
+        }
+        
         if (!empty($modelI18n)) {
             $contentHelper = new $this->contentHelperClass;
             $modelI18n->body = $contentHelper::afterSelectBody($modelI18n->body);
