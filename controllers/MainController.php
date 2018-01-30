@@ -65,26 +65,13 @@ class MainController extends ParentMainController
             $pager->page = $page - 1; //! from 0
         }
 
-        return $this->render('list', [
-            'dataProvider' => $dataProvider,
-        ]);
+        return $this->render('list', compact('dataProvider'));
     }
 
     /**
-     * @inheritdoc
+     * View by slug action
+     * @param integer $id
      */
-/*
-    public function actionView($id)
-    {
-        $result = parent::actionView($id); // render result not need, only $this->renderData
-        $this->renderData = ArrayHelper::merge($this->renderData, [
-            'datetimes' => $this->datetimes,
-        ]);
-        return $this->render('view', $this->renderData);
-    }
-*/
-
-    /** View by slug action */
     public function actionViewBySlug($slug)
     {
         $lh = $this->module->langHelper;
@@ -134,12 +121,14 @@ class MainController extends ParentMainController
             $modelI18n->body = $contentHelper::afterSelectBody($modelI18n->body);
             $model = $modelI18n->getMain()->one();
         }
-        $this->renderData = [
-            'model' => $model,
-            'modelI18n' => $modelI18n,
-        ];
-        return $this->render('view', $this->renderData);
-    }
 
+        $searchModel = $this->module->model('NewsSearchFront');
+        $model = $searchModel::canShow($model, $modelI18n);
+        if (!$model) {
+            $modelI18n = false;
+        }
+
+        return $this->render('view', compact('model', 'modelI18n'));
+    }
 
 }
