@@ -3,7 +3,7 @@ News-2: Add new features to existing module yii2module-news_1b_160430
 =====================================================================
 
 Demonstration of modules inheritance:
-- configs and params will merge with ancestor's data
+- configs and params will merge with ancestors' data
 - messages will merge
 - for route(s) get latest file(s)
 - for view(s) get latest file(s)
