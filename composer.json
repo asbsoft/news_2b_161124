@@ -14,7 +14,7 @@
         "php": ">=5.4",
         "yiisoft/yii2": ">=2.0.7",
 
-        "asbsoft/yii2-common_2_170212": "~2.10",
+        "asbsoft/yii2-common_2_170212": "~2.14",
         "asbsoft/yii2module-news_1b_160430": "~1.1.6"
     },
     "autoload": {
